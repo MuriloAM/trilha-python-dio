@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Metodo para despósito com verificação de valor para evitar entrada de valor negativo ou zero e aceita duas casas decimal.
+- Método para despósito com verificação de valor para evitar entrada de valor negativo ou zero e aceita duas casas decimal.
 - Função para saque com verificações de saldo, limite de operaçẽos de saque, limite de valor e valor mínimo para executar a operação.
 - Função extrato para apresentar as operações realizadas e o saldo atual.
 
