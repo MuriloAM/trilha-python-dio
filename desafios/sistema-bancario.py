@@ -1,3 +1,5 @@
+import textwrap
+
 def deposito(conta):
     """
     Efetua um depósito ao saldo de uma conta e salva a operação efetuada no extrato.
@@ -105,15 +107,61 @@ def extrato(conta, *, extrato):
     print(f"===========FIM===========")
     return
 
+# TODO: criar função para cadastrar cliente contendo informações como:
+#   nome:Fulano de Tal.
+#   data de nascimento:30-01-2020
+#   CPF:12345678910 (somente números e somente um CPF por usuário)
+#   endereço: logradouro, n - bairro - cidade/UF
+def verifica_cpf(cpf, clientes):
+    cliente_detectado = [cliente for cliente in clientes if cliente["cpf"] == cpf]
+    return cliente_detectado[0] if cliente_detectado else None
+
+def listar_clientes(clientes):
+    print(f"clientes:{clientes}")
+
+def cadastrar_cliente(clientes):
+    # TODO: solicitar o CPF e verificar lista de clientes cadastrados se o número está registrado,
+    # o programa deve aceitar o novo registro caso não encontre o CPF informado.
+    cpf = input("Informe o CPF(somente números)")
+    cliente_verificado = verifica_cpf(cpf, clientes)
+
+    if cliente_verificado:
+        print(f"cliente ja cadastrado\n -nome:{cliente_verificado["nome"]}\n -cpf:{cliente_verificado["cpf"]}")
+        return False
+    
+    # Solicita os dados pessoais para efetuar o cadastro.
+    nome = input("Nome:")
+    nascimento = input("Nascimento:")
+    endereco = input("Endereço[Logradouro, numero - bairro - cidade/UF]:")
+    novo_cliente = {}
+    novo_cliente.update({"nome":nome, "cpf":cpf, "nasc":nascimento, "endereço":endereco})
+    clientes.append(novo_cliente)
+    print(f"novo cliente salvo:{novo_cliente}")
+    return True
+    
+
 if __name__ == "__main__":
-    menu = """\n[d:Depósito, s:Sacar, e:Extrato, q:sair] :"""
+    menu = """\n[d:Depósito, s:Sacar, e:Extrato, nc:Novo Cliente, lc:Listar Clientes, q:sair]:"""
     LIMITE_SAQUES = 3
     LIMITE_SAQUE_UNICO = 500
     conta = {"saldo":0, "saques":LIMITE_SAQUES, "limite":LIMITE_SAQUE_UNICO, "extrato":""}
+    clientes = [{"nome":"Pai de Familia", "cpf":"00000000000", "nascimento":"12-06-1982", "endereço":"rua Delícia, 24 - jd Mecânico - Laranjais/SP"}]
     
+    menu = """
+    ================ MENU ================
+    [d]\tDepositar
+    [s]\tSacar
+    [e]\tExtrato
+    [nc]\tNovo cliente
+    [lc]\tListar clientes
+    [h]\tAjuda
+    [q]\tSair
+    ======================================
+    """
+    print(f"{textwrap.dedent(menu)}")
     while True:
 
-        opcao = input(menu)
+        opcao = input("$:")
         if opcao == "d":
             deposito(conta)
 
@@ -122,6 +170,15 @@ if __name__ == "__main__":
 
         elif opcao == "e":
             extrato(conta, extrato=conta["extrato"])
+
+        elif opcao == "nc":
+            cadastrar_cliente(clientes)
+
+        elif opcao == "lc":
+            listar_clientes(clientes)
+
+        elif opcao == "h":
+            print(f"{textwrap.dedent(menu)}")
 
         elif opcao == "q":
             print("Sair")
