@@ -32,7 +32,7 @@ def deposito(conta):
         print(f"valor inválido")
         return False
 
-def saque(conta):
+def saque(*, conta):
     """
     Efetua um saque da conta informada
     verificação para efetuar o saque:
@@ -84,7 +84,7 @@ def saque(conta):
             conta["saques"] -= 1
 
             # informa a operação realizada.
-            print(f"Saque efetuado R$:{valor_saque}")
+            print(f"Saque efetuado R${valor_saque:.2f}")
         else:
             print(f"Quantidade de saques esgotados")
             return False
@@ -92,7 +92,7 @@ def saque(conta):
         print(f"valor inválido")
         return False
 
-def extrato(conta):
+def extrato(conta, *, extrato):
     """
     Exibe o extrato de transações efetuadas na conta
 
@@ -100,7 +100,7 @@ def extrato(conta):
         conta (dict): Dict dados da conta
     """
     print(f"\n=========EXTRATO=========")
-    print(f"{conta["extrato"]}")
+    print(f"{extrato}")
     print(f"Saldo:{conta["saldo"]:.2f}")
     print(f"===========FIM===========")
     return
@@ -118,10 +118,10 @@ if __name__ == "__main__":
             deposito(conta)
 
         elif opcao == "s":
-            saque(conta)
+            saque(conta=conta)
 
         elif opcao == "e":
-            extrato(conta)
+            extrato(conta, extrato=conta["extrato"])
 
         elif opcao == "q":
             print("Sair")
